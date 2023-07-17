@@ -43,11 +43,16 @@ CREATE TABLE computador (
     comp_mouse_fk INT NOT NULL UNIQUE,
     comp_diadema_fk INT NOT NULL UNIQUE
 );
+
 CREATE TABLE area (
     area_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     area_tipo_fk INT NOT NULL,
-    area_nombre VARCHAR(40) NOT NULL,
-    area_computador_fk INT NOT NULL UNIQUE
+    area_nombre VARCHAR(40) NOT NULL
+);
+CREATE TABLE inventario (
+    inv_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    inv_computador_fk INT NOT NULL UNIQUE,
+    inv_area_fk INT NOT NULL
 );
 CREATE TABLE insidencia (
     insi_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -67,12 +72,13 @@ ALTER TABLE computador ADD CONSTRAINT computador_teclado_fk FOREIGN KEY(comp_tec
 ALTER TABLE computador ADD CONSTRAINT computador_mouse_fk FOREIGN KEY(comp_mouse_fk) REFERENCES mouse(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE computador ADD CONSTRAINT computador_diadema_fk FOREIGN KEY(comp_diadema_fk) REFERENCES diadema(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE area ADD CONSTRAINT area_tipo_area_fk FOREIGN KEY(area_tipo_fk) REFERENCES tipo_area(tip_area_id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE area ADD CONSTRAINT area_computadors_fk FOREIGN KEY(area_computador_fk) REFERENCES computador(comp_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE inventario ADD CONSTRAINT inventario_computadors_fk FOREIGN KEY(inv_computador_fk) REFERENCES computador(comp_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE inventario ADD CONSTRAINT inventario_area_fk FOREIGN KEY(inv_area_fk) REFERENCES area(area_id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE insidencia ADD CONSTRAINT insidencia_categoria_fk FOREIGN KEY(insi_categoria_fk) REFERENCES categoria_insidencia(cat_id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE insidencia ADD CONSTRAINT insidencia_trainer_fk FOREIGN KEY(insi_trainer_fk) REFERENCES trainer(trai_id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE insidencia ADD CONSTRAINT insidencia_tipo_fk FOREIGN KEY(insi_tipo_fk) REFERENCES tipo_insidencia(tip_id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE insidencia ADD CONSTRAINT insidencia_area_fk FOREIGN KEY(insi_area_fk) REFERENCES area(area_id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE insidencia ADD CONSTRAINT insidencia_computador_fk FOREIGN KEY(insi_computador_fk) REFERENCES area(area_computador_fk) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE insidencia ADD CONSTRAINT insidencia_computador_fk FOREIGN KEY(insi_computador_fk) REFERENCES inventario(inv_computador_fk) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 /* Agreggar registro */
@@ -102,12 +108,20 @@ INSERT INTO tipo_area(tip_area_nombre) VALUES
 ("TRAINING"),("REVIEW");
 
 /* AREA */
-INSERT INTO area(area_tipo_fk, area_nombre, area_computador_fk) VALUES
-(1, "SPUTNIK", 1),
-(1, "APOLO", 2),
-(1, "ARTEMIS", 3),
-(2, "CORVUS", 4),
-(2, "ENDOR", 5);
+INSERT INTO area(area_tipo_fk, area_nombre) VALUES
+(1, "SPUTNIK"),
+(1, "APOLO"),
+(1, "ARTEMIS"),
+(2, "CORVUS"),
+(2, "ENDOR");
+
+/* INVENTARIO */
+INSERT INTO inventario(inv_computador_fk, inv_area_fk) VALUES
+(1, 1),
+(2, 1),
+(3, 3),
+(4, 4),
+(5, 5);
 
 /* TIPO_INDIENCIA */
 INSERT INTO tipo_insidencia(tip_nombre) VALUES

@@ -2,22 +2,22 @@ import dotenv from "dotenv";
 import mysql from "mysql2";
 import {Router} from "express";
 import validateID from "../middleware/validateID.js";
-import validateTeclado from "../middleware/validateTeclado.js";
+import validateTipoArea from "../middleware/validateTipoArea.js";
 
 dotenv.config();
-let storageTeclado = Router();
+let storageTipoArea = Router();
 
 let con = undefined;
-storageTeclado.use((req,res,next)=>{
+storageTipoArea.use((req,res,next)=>{
     let my_conexio = JSON.parse(process.env.MY_CONNECT);
     con = mysql.createPool(my_conexio);
     next()
 })
 
-storageTeclado.get("/", validateID, (req,res)=>{
+storageTipoArea.get("/", validateID, (req,res)=>{
     let sql = (req.query.id)
-    ?[`SELECT * FROM teclado WHERE id = ?`, req.query.id]
-    :[`SELECT * FROM teclado`]
+    ?[`SELECT * FROM tipo_area WHERE tip_area_id = ?`, req.query.id]
+    :[`SELECT * FROM tipo_area`]
     con.query(
         ...sql,
         (err,data,fil)=>{
@@ -31,12 +31,12 @@ storageTeclado.get("/", validateID, (req,res)=>{
     )
 })
 
-storageTeclado.post("/", validateTeclado, (req,res)=>{
+storageTipoArea.post("/", validateTipoArea, (req,res)=>{
     // {
-    //     "teclado": 789
+    //     "nombre": "REVIEW"
     //   }
     con.query(
-        `INSERT INTO teclado SET ?`,
+        `INSERT INTO tipo_area SET ?`,
         [req.body],
         (err,data,fil)=>{
             if (err) {
@@ -49,9 +49,9 @@ storageTeclado.post("/", validateTeclado, (req,res)=>{
     )
 })
 
-storageTeclado.put("/", validateTeclado, validateID, (req,res)=>{
+storageTipoArea.put("/", validateTipoArea, validateID, (req,res)=>{
     con.query(
-        `UPDATE teclado SET ? WHERE id = ?`,
+        `UPDATE tipo_area SET ? WHERE tip_area_id = ?`,
         [req.body, req.query.id],
         (err,data,fil)=>{
             if (err) {
@@ -64,9 +64,9 @@ storageTeclado.put("/", validateTeclado, validateID, (req,res)=>{
     )
 })
 
-storageTeclado.delete("/", validateID, (req,res)=>{
+storageTipoArea.delete("/", validateID, (req,res)=>{
     con.query(
-        `DELETE FROM teclado WHERE id = ?`,
+        `DELETE FROM tipo_area WHERE tip_area_id = ?`,
         [req.query.id],
         (err,data,fil)=>{
             if (err) {
@@ -79,4 +79,4 @@ storageTeclado.delete("/", validateID, (req,res)=>{
     )
 })
 
-export default storageTeclado;
+export default storageTipoArea;

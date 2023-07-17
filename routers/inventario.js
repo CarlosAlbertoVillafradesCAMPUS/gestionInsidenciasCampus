@@ -2,22 +2,22 @@ import dotenv from "dotenv";
 import mysql from "mysql2";
 import {Router} from "express";
 import validateID from "../middleware/validateID.js";
-import validateTeclado from "../middleware/validateTeclado.js";
+import validateInventario from "../middleware/validateInventario.js";
 
 dotenv.config();
-let storageTeclado = Router();
+let storageInvnetario = Router();
 
 let con = undefined;
-storageTeclado.use((req,res,next)=>{
+storageInvnetario.use((req,res,next)=>{
     let my_conexio = JSON.parse(process.env.MY_CONNECT);
     con = mysql.createPool(my_conexio);
     next()
 })
 
-storageTeclado.get("/", validateID, (req,res)=>{
+storageInvnetario.get("/", validateID, (req,res)=>{
     let sql = (req.query.id)
-    ?[`SELECT * FROM teclado WHERE id = ?`, req.query.id]
-    :[`SELECT * FROM teclado`]
+    ?[`SELECT * FROM inventario WHERE inv_id = ?`, req.query.id]
+    :[`SELECT * FROM inventario`]
     con.query(
         ...sql,
         (err,data,fil)=>{
@@ -31,12 +31,12 @@ storageTeclado.get("/", validateID, (req,res)=>{
     )
 })
 
-storageTeclado.post("/", validateTeclado, (req,res)=>{
+storageInvnetario.post("/", validateInventario, (req,res)=>{
     // {
-    //     "teclado": 789
+    //     "nombre": "REVIEW"
     //   }
     con.query(
-        `INSERT INTO teclado SET ?`,
+        `INSERT INTO inventario SET ?`,
         [req.body],
         (err,data,fil)=>{
             if (err) {
@@ -49,9 +49,9 @@ storageTeclado.post("/", validateTeclado, (req,res)=>{
     )
 })
 
-storageTeclado.put("/", validateTeclado, validateID, (req,res)=>{
+storageInvnetario.put("/", validateInventario, validateID, (req,res)=>{
     con.query(
-        `UPDATE teclado SET ? WHERE id = ?`,
+        `UPDATE inventario SET ? WHERE inv_id = ?`,
         [req.body, req.query.id],
         (err,data,fil)=>{
             if (err) {
@@ -64,9 +64,9 @@ storageTeclado.put("/", validateTeclado, validateID, (req,res)=>{
     )
 })
 
-storageTeclado.delete("/", validateID, (req,res)=>{
+storageInvnetario.delete("/", validateID, (req,res)=>{
     con.query(
-        `DELETE FROM teclado WHERE id = ?`,
+        `DELETE FROM inventario WHERE inv_id = ?`,
         [req.query.id],
         (err,data,fil)=>{
             if (err) {
@@ -79,4 +79,4 @@ storageTeclado.delete("/", validateID, (req,res)=>{
     )
 })
 
-export default storageTeclado;
+export default storageInvnetario;
