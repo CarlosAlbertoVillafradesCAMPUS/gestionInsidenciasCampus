@@ -8,6 +8,8 @@ import storageDiadema from "./routers/diadema.js";
 import storageTipoArea from "./routers/tipoArea.js";
 import storageArea from "./routers/area.js";
 import storageInvnetario from "./routers/inventario.js";
+import storageTipoInsidencia from "./routers/tipoInsidencia.js";
+import storageCategoriaInsidencia from "./routers/categoriaInsidencia.js";
 
 dotenv.config();
 const appExpress = express();
@@ -21,6 +23,10 @@ appExpress.use("/diadema", storageDiadema);
 appExpress.use("/tipoArea", storageTipoArea);
 appExpress.use("/area", storageArea);
 appExpress.use("/inventario", storageInvnetario);
+appExpress.use("/tipoInsidencia", storageTipoInsidencia);
+appExpress.use("/categoriaInsidencia", storageCategoriaInsidencia);
+
+
 
 let config = JSON.parse(process.env.MY_CONFIG);
 appExpress.listen(config, ()=> console.log(`http://${config.hostname}:${config.port}`))

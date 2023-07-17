@@ -1,6 +1,8 @@
 CREATE DATABASE db_gestion_insidencias;
 USE db_gestion_insidencias;
-/* Creacion de tablas */CREATE TABLE categoria_insidencia (
+/* Creacion de tablas */
+
+CREATE TABLE categoria_insidencia (
     cat_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     cat_nombre VARCHAR(20) NOT NULL
 );
