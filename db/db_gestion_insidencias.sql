@@ -1,8 +1,6 @@
 CREATE DATABASE db_gestion_insidencias;
 USE db_gestion_insidencias;
-/* Creacion de tablas */
-
-CREATE TABLE categoria_insidencia (
+/* Creacion de tablas */CREATE TABLE categoria_insidencia (
     cat_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     cat_nombre VARCHAR(20) NOT NULL
 );
@@ -25,16 +23,20 @@ CREATE TABLE tipo_area (
     tip_area_nombre VARCHAR(20) NOT NULL
 );
 CREATE TABLE monitor (
-    id INT NOT NULL PRIMARY KEY
+    id INT NOT NULL PRIMARY KEY,
+    mon_estado VARCHAR(200) NOT NULL 
 );
 CREATE TABLE teclado (
-    id INT NOT NULL PRIMARY KEY
+    id INT NOT NULL PRIMARY KEY,
+    tcl_estado VARCHAR(200) NOT NULL 
 );
 CREATE TABLE mouse (
-    id INT NOT NULL PRIMARY KEY
+    id INT NOT NULL PRIMARY KEY,
+    mou_estado VARCHAR(200) NOT NULL 
 );
 CREATE TABLE diadema (
-    id INT NOT NULL PRIMARY KEY
+    id INT NOT NULL PRIMARY KEY,
+    diad_estado VARCHAR(200) NOT NULL 
 );
 CREATE TABLE computador (
     comp_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -84,16 +86,16 @@ ALTER TABLE insidencia ADD CONSTRAINT insidencia_computador_fk FOREIGN KEY(insi_
 /* Agreggar registro */
 
 /* MONITOR */
-INSERT INTO monitor(id) VALUES(123),(456),(789),(654),(987);
+INSERT INTO monitor(id, mon_estado) VALUES(123,"buen estado"),(456,"buen estado"),(789,"buen estado"),(654,"buen estado"),(987,'buen estado');
 
 /* TECLADO */
-INSERT INTO teclado(id) VALUES(741),(852),(963),(456),(789);
+INSERT INTO teclado(id, tcl_estado) VALUES(741,"buen estado"),(852,"buen estado"),(963,"buen estado"),(456,"buen estado"),(789,"buen estado");
 
 /* MAUSE */
-INSERT INTO mouse(id) VALUES(147),(258),(369),(852),(963);
+INSERT INTO mouse(id, mou_estado) VALUES(147,"buen estado"),(258,"buen estado"),(369,"buen estado"),(852,"buen estado"),(963,"buen estado");
 
 /* DIADEMA */
-INSERT INTO diadema(id) VALUES(321),(654),(987),(258),(369);
+INSERT INTO diadema(id, diad_estado) VALUES(321,"buen estado"),(654,"buen estado"),(987,"buen estado"),(258,"buen estado"),(369,"buen estado");
 
 /* COMPUTADOR */
 INSERT INTO computador(comp_monitor_fk, comp_teclado_fk, comp_mouse_fk, comp_diadema_fk) VALUES
