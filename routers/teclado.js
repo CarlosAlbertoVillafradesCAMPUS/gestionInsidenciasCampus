@@ -1,28 +1,28 @@
 import dotenv from "dotenv";
 import mysql from "mysql2";
 import {Router} from "express";
-import validateComputador from "../middleware/validateComputador.js";
 import validateID from "../middleware/validateID.js";
+import validateTeclado from "../middleware/validateTeclado.js";
 
 dotenv.config();
-let storageComputador = Router();
+let storageTeclado = Router();
 
 let con = undefined;
-storageComputador.use((req,res,next)=>{
+storageTeclado.use((req,res,next)=>{
     let my_conexio = JSON.parse(process.env.MY_CONNECT);
     con = mysql.createPool(my_conexio);
     next()
 })
 
-storageComputador.get("/", validateID, (req,res)=>{
+storageTeclado.get("/", validateID, (req,res)=>{
     let sql = (req.query.id)
-    ?[`SELECT * FROM computador WHERE comp_id = ?`, req.query.id]
-    :[`SELECT * FROM computador`]
+    ?[`SELECT * FROM monitor WHERE id = ?`, req.query.id]
+    :[`SELECT * FROM monitor`]
     con.query(
         ...sql,
         (err,data,fil)=>{
             if (err) {
-               res.status(500).send("Error al traer los datos") 
+               res.status(500).send("Error en la solicitud") 
             }else{
                 res.send(data)
             }
@@ -31,15 +31,12 @@ storageComputador.get("/", validateID, (req,res)=>{
     )
 })
 
-storageComputador.post("/", validateComputador, (req,res)=>{
+storageTeclado.post("/", validateTeclado, (req,res)=>{
     // {
-    //     "monitor": 789,
-    //     "teclado": 741,
-    //     "mouse": 147,
-    //     "diadema": 321
+    //     "teclado": 789
     //   }
     con.query(
-        `INSERT INTO computador SET ?`,
+        `INSERT INTO teclado SET ?`,
         [req.body],
         (err,data,fil)=>{
             if (err) {
@@ -52,10 +49,9 @@ storageComputador.post("/", validateComputador, (req,res)=>{
     )
 })
 
-storageComputador.put("/", validateComputador, validateID, (req,res)=>{
-    console.log(req.body);
+storageTeclado.put("/", validateTeclado, validateID, (req,res)=>{
     con.query(
-        `UPDATE computador SET ? WHERE comp_id = ?`,
+        `UPDATE teclado SET ? WHERE id = ?`,
         [req.body, req.query.id],
         (err,data,fil)=>{
             if (err) {
@@ -68,9 +64,9 @@ storageComputador.put("/", validateComputador, validateID, (req,res)=>{
     )
 })
 
-storageComputador.delete("/", validateID, (req,res)=>{
+storageTeclado.delete("/", validateID, (req,res)=>{
     con.query(
-        `DELETE FROM computador WHERE comp_id = ?`,
+        `DELETE FROM teclado WHERE id = ?`,
         [req.query.id],
         (err,data,fil)=>{
             if (err) {
@@ -83,4 +79,4 @@ storageComputador.delete("/", validateID, (req,res)=>{
     )
 })
 
-export default storageComputador;
+export default storageTeclado;

@@ -5,7 +5,7 @@ import {dtoComputador} from "../controller/dtoComputador.js"
 
 const validateComputador = express();
 
-validateComputador.use (async(req,res,next) => {
+validateComputador.use(async(req,res,next) => {
     try {
         let data = plainToClass(dtoComputador, req.body, {excludeExtraneousValues:true})
         req.body = data;
