@@ -8,10 +8,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Expose, Transform } from "class-transformer";
-import { IsInt } from "class-validator";
+import { IsInt, IsString } from "class-validator";
 export class dtoMouse {
-    constructor(id) {
+    constructor(id, mou_estado) {
         this.id = id;
+        this.mou_estado = mou_estado;
     }
 }
 __decorate([
@@ -25,3 +26,14 @@ __decorate([
     }, { toClassOnly: true }),
     __metadata("design:type", Number)
 ], dtoMouse.prototype, "id", void 0);
+__decorate([
+    IsString(),
+    Expose({ name: "estado" }),
+    Transform(({ value }) => {
+        if (/^[a-z A-Z áéíóúÁÉÍÓÚñÑüÜ 0-9]+$/.test(value))
+            return value;
+        else
+            throw { status: 400, message: `Error en los parametros de entrada` };
+    }, { toClassOnly: true }),
+    __metadata("design:type", String)
+], dtoMouse.prototype, "mou_estado", void 0);

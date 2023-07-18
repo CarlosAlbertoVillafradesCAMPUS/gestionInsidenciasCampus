@@ -148,12 +148,3 @@ INSERT INTO insidencia(insi_trainer_fk, insi_categoria_fk, insi_tipo_fk, insi_ar
 (56789, 2, 2, 4, 4, "se borro visal estudio");
 INSERT INTO insidencia(insi_trainer_fk, insi_categoria_fk, insi_tipo_fk, insi_area_fk, insi_computador_fk, insi_descripcion) VALUES
 (12345, 1, 1, 1, 1, "se le daño el mause");
-
-
-SELECT * from computador WHERE comp_id = 1234;
-UPDATE monitor SET id = 1234567 WHERE id = 123;
-DELETE FROM monitor WHERE id = 1234567;
-
-UPDATE computador SET comp_monitor_fk=789 WHERE comp_id = 4;
-SELECT * FROM insidencia;
-SELECT insi_id, insi_trainer_fk, trai_nombre, insi_categoria_fk, cat_nombre, insi_tipo_fk, tip_nombre, insi_area_fk, area_nombre,insi_computador_fk, insi_descripcion, insi_fecha  FROM insidencia INNER JOIN trainer ON insi_trainer_fk = trai_id  INNER JOIN categoria_insidencia ON insi_categoria_fk = cat_id INNER JOIN tipo_insidencia ON insi_tipo_fk = tip_id INNER JOIN area ON insi_area_fk = area_id;

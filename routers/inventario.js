@@ -16,8 +16,8 @@ storageInvnetario.use((req,res,next)=>{
 
 storageInvnetario.get("/", validateID, (req,res)=>{
     let sql = (req.query.id)
-    ?[`SELECT * FROM inventario WHERE inv_id = ?`, req.query.id]
-    :[`SELECT * FROM inventario`]
+    ?[`SELECT inventario.*, area_nombre FROM inventario INNER JOIN area ON inv_area_fk = area_id WHERE inv_id = ?`, req.query.id]
+    :[`SELECT inventario.*, area_nombre FROM inventario INNER JOIN area ON inv_area_fk = area_id`]
     con.query(
         ...sql,
         (err,data,fil)=>{

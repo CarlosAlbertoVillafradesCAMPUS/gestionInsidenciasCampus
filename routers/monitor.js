@@ -33,7 +33,8 @@ storageMonitor.get("/", validateID, (req,res)=>{
 
 storageMonitor.post("/", validateMonitor, (req,res)=>{
     // {
-    //     "monitor": 789
+    //     "monitor": 789,
+     //       "estado": "buen estado"
     //   }
     con.query(
         `INSERT INTO monitor SET ?`,
