@@ -10,6 +10,8 @@ import storageArea from "./routers/area.js";
 import storageInvnetario from "./routers/inventario.js";
 import storageTipoInsidencia from "./routers/tipoInsidencia.js";
 import storageCategoriaInsidencia from "./routers/categoriaInsidencia.js";
+import storageTrainer from "./routers/trainer.js";
+import storageInsidencia from "./routers/insidencia.js";
 
 dotenv.config();
 const appExpress = express();
@@ -25,6 +27,8 @@ appExpress.use("/area", storageArea);
 appExpress.use("/inventario", storageInvnetario);
 appExpress.use("/tipoInsidencia", storageTipoInsidencia);
 appExpress.use("/categoriaInsidencia", storageCategoriaInsidencia);
+appExpress.use("/trainer", storageTrainer);
+appExpress.use("/insidencia", storageInsidencia);
 
 
 
